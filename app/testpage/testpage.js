@@ -5,7 +5,7 @@ angular.module('reseta.testpage', [
 ])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/', {
+  $routeProvider.when('/test', {
     templateUrl: 'testpage/testpage.html',
     controller: 'TestpageCtrl'
   });

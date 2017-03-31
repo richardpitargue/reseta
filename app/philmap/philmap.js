@@ -5,7 +5,7 @@ angular.module('reseta.philmap', [
 ])
 
 .config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/philmap', {
+    $routeProvider.when('/', {
         templateUrl: 'philmap/philmap.html',
         controller: 'PhilMapController'
     });
@@ -211,9 +211,271 @@ angular.module('reseta.philmap', [
             },
             {
                 "id": "PH-NIR",
-                "title": "Negros Island Region",
+                "title": "NIR",
                 "color": "rgba(42,210,135,1)"
             }
+        ];
+        var lines = [
+          {
+  					"color": "rgba(232,222,62,1)",
+  					"longitudes": [
+  						121.2177,
+  						118.8212
+  					],
+  					"latitudes": [
+  						18.9113,
+  						18.9113
+  					]
+  				},
+  				{
+  					"color": "rgba(198,44,44,1)",
+  					"longitudes": [
+  						120.3829,
+  						118.2557
+  					],
+  					"latitudes": [
+  						17.1341,
+  						17.1341
+  					]
+  				},
+  				{
+            "color": "rgba(229,127,29,1)",
+  					"longitudes": [
+  						122.1063,
+  						124.5836
+  					],
+  					"latitudes": [
+  						17.6526,
+  						17.6008
+  					],
+  				},
+  				{
+            "color": "rgba(74,129,210,1)",
+  					"longitudes": [
+  						120.6791,
+  						117.2863
+  					],
+  					"latitudes": [
+  						16.0929,
+  						16.0929
+  					]
+  				},
+  				{
+  					"color": "rgba(26,205,55,1)",
+  					"longitudes": [
+  						121.3523,
+  						119.1712
+  					],
+  					"latitudes": [
+  						14.679,
+  						14.679
+  					]
+  				},
+  				{
+  					"color": "rgba(234,178,23,1)",
+  					"longitudes": [
+  						120.8676,
+  						117.7441
+  					],
+  					"latitudes": [
+  						13.441,
+  						13.441
+  					]
+  				},
+  				{
+  					"color": "rgba(198,123,172,1)",
+  					"longitudes": [
+  						123.3718,
+  						126.1992
+  					],
+  					"latitudes": [
+  						13.7846,
+  						13.7583
+  					]
+  				},
+  				{
+  					"color": "rgba(210,42,76,1)",
+  					"longitudes": [
+  						122.564,
+  						121.2715
+  					],
+  					"latitudes": [
+  						11.419,
+  						11.4456
+  					]
+  				},
+  				{
+  					"color": "rgba(42,210,135,1)",
+  					"longitudes": [
+  						122.9679,
+  						121.7562
+  					],
+  					"latitudes": [
+  						10.0473,
+  						10.074
+  					]
+  				},
+  				{
+  					"color": "rgba(6,50,91,1)",
+  					"longitudes": [
+  						124.8798,
+  						127.0608
+  					],
+  					"latitudes": [
+  						12.4621,
+  						12.4091
+  					]
+  				},
+  				{
+  					"color": "rgba(104,85,160,1)",
+  					"longitudes": [
+  						124.1797,
+  						127.7879
+  					],
+  					"latitudes": [
+  						9.9406,
+  						9.9139
+  					]
+  				},
+  				{
+  					"color": "rgba(236,81,219,1)",
+  					"longitudes": [
+  						123.1179,
+  						121.11
+  					],
+  					"latitudes": [
+  						8.0138,
+  						8.0138
+  					]
+  				},
+  				{
+  					"color": "rgba(145,79,26,1)",
+  					"longitudes": [
+  						124.9875,
+  						127.9225
+  					],
+  					"latitudes": [
+  						7.8259,
+  						7.7454
+  					]
+  				},
+  				{
+  					"color": "rgba(39,115,22,1)",
+  					"longitudes": [
+  						125.8491,
+  						128.6765
+  					],
+  					"latitudes": [
+  						8.7375,
+  						8.7107
+  					]
+  				},
+  				{
+  					"color": "rgba(1,1,1,1)",
+  					"longitudes": [
+  						124.2604,
+  						120.2214
+  					],
+  					"latitudes": [
+  						7.0199,
+  						7.0737
+  					]
+  				},
+  				{
+  					"color": "rgba(115,26,88,1)",
+  					"longitudes": [
+  						124.6913,
+  						118.6058
+  					],
+  					"latitudes": [
+  						6.1856,
+  						6.2394
+  					]
+  				},
+  				{
+  					"color": "rgba(110,44,1,1)",
+  					"longitudes": [
+  						125.3106,
+  						127.1686
+  					],
+  					"latitudes": [
+  						6.7509,
+  						6.6971
+  					]
+  				},
+  				{
+  					"color": "rgba(135,29,229,1)",
+  					"longitudes": [
+  						121.083,
+  						123.2103
+  					],
+  					"latitudes": [
+  						15.1513,
+  						15.1251
+  					]
+  				}
+        ];
+        var labels = [
+          {
+						"selectable": true,
+						"longitude": 117.5599,
+						"latitude": 17.3706,
+						"label": "M1",
+						"labelPosition": "right",
+						"labelColor": "rgba(198,44,44,1)",
+						"labelRollOverColor": "rgba(198,44,44,0.8)",
+						"labelFontSize": 15
+					},
+          {
+						"selectable": true,
+						"longitude": 117.5692,
+						"latitude": 16.9412,
+						"label": "D1",
+						"labelPosition": "right",
+						"labelColor": "rgba(198,44,44,1)",
+						"labelRollOverColor": "rgba(198,44,44,0.8)",
+						"labelFontSize": 15
+					},
+					{
+						"selectable": true,
+						"longitude": 118.0022,
+						"latitude": 19.1976,
+						"label": "MC",
+						"labelPosition": "right",
+						"labelColor": "rgba(232,222,62,1)",
+						"labelRollOverColor": "rgba(232,222,62,0.8)",
+						"labelFontSize": 15
+					},
+					{
+						"selectable": true,
+						"longitude": 118.0515,
+						"latitude": 18.7703,
+						"label": "DC",
+						"labelPosition": "right",
+						"labelColor": "rgba(232,222,62,1)",
+						"labelRollOverColor": "rgba(232,222,62,0.8)",
+						"labelFontSize": 15
+					},
+          {
+						"selectable": true,
+						"longitude": 116.5227,
+						"latitude": 16.3306,
+						"label": "M3",
+						"labelPosition": "right",
+						"labelColor": "rgba(74,129,210,1)",
+						"labelRollOverColor": "rgba(74,129,210,0.8)",
+						"labelFontSize": 15
+					},
+					{
+						"selectable": true,
+						"longitude": 116.5214,
+						"latitude": 15.9236,
+						"label": "D3",
+						"labelPosition": "right",
+						"labelColor": "rgba(74,129,210,1)",
+						"labelRollOverColor": "rgba(74,129,210,0.8)",
+						"labelFontSize": 15
+					},
         ];
 
         AmCharts.maps.philippinesLow = {
@@ -235,7 +497,6 @@ angular.module('reseta.philmap', [
 
         AmCharts.makeChart("map",{
             "type": "map",
-            "pathToImages": "http://www.amcharts.com/lib/3/images/",
             "addClassNames": true,
             "fontSize": 15,
             "color": "#000000",
@@ -245,13 +506,9 @@ angular.module('reseta.philmap', [
             "dataProvider": {
               "map": "philippinesLow",
               "getAreasFromMap": true,
-              "areas": areasArr
-            },
-            "balloon": {
-              "horizontalPadding": 15,
-              "borderAlpha": 0,
-              "borderThickness": 1,
-              "verticalPadding": 15
+              "areas": areasArr,
+              "lines": lines,
+              "images": labels
             },
             "areasSettings": {
               "color": "rgba(129,129,129,1)",
@@ -264,7 +521,6 @@ angular.module('reseta.philmap', [
               "unlistedAreasOutlineAlpha": 0
             },
             "linesSettings": {
-              "color": "rgba(129,129,129,1)",
               "selectable": true,
               "rollOverBrightness": 20,
               "selectedBrightness": 20
@@ -273,8 +529,8 @@ angular.module('reseta.philmap', [
               "zoomControlEnabled": true,
               "homeButtonEnabled": false,
               "panControlEnabled": false,
-              "right": 38,
-              "top": 30,
+              "left": 35,
+              "bottom": 35,
               "minZoomLevel": 0.25,
               "gridHeight": 100,
               "gridAlpha": 0.1,
