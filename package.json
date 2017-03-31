@@ -1,0 +1,28 @@
+{
+  "name": "reseta-v1",
+  "version": "0.0.1",
+  "description": "ONR Reseta Web Interface",
+  "main": "app/app.js",
+  "scripts": {
+    "test": "echo \"Add Test\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richardpitargue/reseta.git"
+  },
+  "keywords": [
+    "hackathon",
+    "ai",
+    "prediction"
+  ],
+  "author": "Kean Paderes (https://github.com/keanpaderes)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/richardpitargue/reseta/issues"
+  },
+  "homepage": "https://github.com/richardpitargue/reseta#readme",
+  "dependencies": {
+    "bower": "1.8.0",
+    "http-server": "0.9.0"
+  }
+}

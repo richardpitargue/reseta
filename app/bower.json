@@ -1,0 +1,16 @@
+{
+  "name": "reseta-v1",
+  "authors": [
+    "keanpaderes <kean.paderes@gmail.com>"
+  ],
+  "description": "ONR Reseta Web Interface",
+  "main": "app.js",
+  "keywords": [
+    "hackathon",
+    "ai",
+    "prediction"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true
+}
