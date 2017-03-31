@@ -14,6 +14,7 @@ angular.module('reseta.philmap', [
 .controller('PhilMapController', ['$scope',
     function($scope, PhilMapDrawer) {
         $scope.region = '';
+        $scope.data = [];
         /*MOCK DATA*/
         $scope.diseases = [
           "HIV/STI",
@@ -33,6 +34,7 @@ angular.module('reseta.philmap', [
           "Influenza",
           "Malaria"
         ]
+
         var regionsPath = [
             /*REGION 1*/
             {
@@ -798,6 +800,16 @@ angular.module('reseta.philmap', [
             }
 
         ];
+
+        $scope.addDisease = function() {
+          var data = {};
+          data.disease = $scope.name.trim();
+          data.cases = $scope.count;
+          data.population = $scope.pop;
+          data.region = $scope.region;
+          $scope.data.push(data);
+
+        }
 
         $scope.initZoomLvl = 0;
         $scope.initZoomLongitude = 0;
