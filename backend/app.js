@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/../app')));
 app.use('/api', require(path.join(__dirname, '/config/router'))(express.Router()));
 
-app.get('/api/*', (req, res) => {
+app.get('/api*', (req, res) => {
     res.status(403).send({
         'message': 'Nothing to see here.'
     });
