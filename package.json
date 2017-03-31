@@ -4,7 +4,7 @@
   "description": "ONR Reseta Web Interface",
   "main": "app/app.js",
   "scripts": {
-    "test": "echo \"Add Test\""
+    "start": "http-server -a localhost -p 8000 -c-1 ./app"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,5 @@
     "bower": "1.8.0",
     "http-server": "0.9.0"
   },
-  "scripts": {
-    "start": "http-server -a localhost -p 8000 -c-1 ./app"
-  }
+  "dependencies": {}
 }

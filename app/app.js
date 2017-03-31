@@ -2,6 +2,7 @@
 
 angular.module('reseta', [
     'ngRoute',
+    'reseta.analytics',
     'reseta.testpage',
     'reseta.philmap'
 ]).
