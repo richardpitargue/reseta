@@ -4,7 +4,8 @@
   "description": "ONR Reseta Web Interface",
   "main": "app/app.js",
   "scripts": {
-    "start": "http-server -a localhost -p 8000 -c-1 ./app"
+    "start": "nodemon --exec npm run babel-node -- ./backend/bin/www",
+    "babel-node": "babel-node --presets=es2015"
   },
   "repository": {
     "type": "git",
@@ -22,8 +23,18 @@
   },
   "homepage": "https://github.com/richardpitargue/reseta#readme",
   "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-preset-es2015": "^6.18.0",
     "bower": "1.8.0",
-    "http-server": "0.9.0"
+    "nodemon": "^1.11.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "body-parser": "~1.15.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "express": "~4.13.4",
+    "morgan": "~1.7.0",
+    "serve-favicon": "~2.3.0",
+    "winston": "^2.2.0"
+  }
 }
