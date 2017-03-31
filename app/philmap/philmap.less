@@ -2,9 +2,7 @@
   padding: 0px;
 
   .brand-logo {
-    min-height: 100px;
-    min-width: 350px;
-    background-color: #fab;
+    width: 200px;
     position: absolute;
     top: 30px;
     left: 30px;
@@ -12,12 +10,87 @@
 
   .details-modal {
     min-height: 400px;
-    min-width: 350px;
-    background-color: #fab;
+    width: 350px;
+    background-color: rgba(51, 92, 103, 0.75);
     position: absolute;
+    overflow: hidden;
+    color: black;
     top: 30px;
     right: 30px;
+
+    .section-title {
+      background-color: #2e2e2e;
+      color: black;
+      font-weight: bold;
+      position: relative;
+      padding: inherit;
+
+      &.focus {
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .title {
+        padding: 8px 16px 8px 16px;
+        display: inline-block;
+        position: relative;
+      }
+
+      .skew {
+        background-color: #eee;
+        height: 100%;
+        left: -15px;
+        position: absolute;
+        top: 0;
+
+        -webkit-transform: skew(30deg);
+        -ms-transform: skew(30deg);
+        transform: skew(30deg);
+      }
+
+      .skewed-text {
+        position: relative;
+        padding: 0px 15px;
+      }
+    }
+
+    .summary {
+      padding: 8px 15px;
+      color: white;
+
+      form {margin: 0px 15px;}
+
+      [class^='col-'] {
+        padding: 0;
+        margin-top: 10px;
+      }
+
+      .control-label {
+        float: left;
+        margin-right: 5px;
+        margin-top: 10px;
+      }
+
+      select {
+        color: black;
+        border-radius: 0;
+        letter-spacing: 0;
+        text-transform: none;
+        padding: 5px 8px !important;
+      }
+
+      input { border-radius: 0; }
+
+      .btn {
+        margin-top: 10px;
+        margin-left: 10px;
+      }
+    }
   }
+
+  #d1 {width: 268px;}
+  #d2 {width: 212.891px;}
+  #d3 {width: 265px;}
 
   #map {
     width: 100%;

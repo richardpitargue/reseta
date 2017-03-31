@@ -13,7 +13,26 @@ angular.module('reseta.philmap', [
 
 .controller('PhilMapController', ['$scope',
     function($scope, PhilMapDrawer) {
+        $scope.region = '';
         /*MOCK DATA*/
+        $scope.diseases = [
+          "HIV/STI",
+          "Neonatal Tetanus",
+          "Pertussis",
+          "Cholera",
+          "Typhoid",
+          "Rotavirus",
+          "Leptospirosis",
+          "Diptheria",
+          "Dengue",
+          "Chikungunya",
+          "Measles",
+          "Acute Meningitis Encephalitis Syndrome",
+          "Acute Flaccid Paralysis",
+          "Hand Foot and Mouth Disease",
+          "Influenza",
+          "Malaria"
+        ]
         var regionsPath = [
             /*REGION 1*/
             {
@@ -865,6 +884,7 @@ angular.module('reseta.philmap', [
                 {
                     "event": "clickMapObject",
                     "method": function(event) {
+                        $scope.region = event.mapObject.title;
                         $scope.$apply(function(){
                             $scope.hideDetailModal = !$scope.hideDetailModal;
                         });
@@ -883,7 +903,7 @@ angular.module('reseta.philmap', [
                             $scope.isZoomed = !$scope.isZoomed;
 
                             var info = event.chart.getDevInfo();
-                            console.log(event.mapObject.title);
+                            // console.log(event.mapObject.title);
                             //create showing details here
                         }
                     }
