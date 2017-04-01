@@ -11,11 +11,146 @@ angular.module('reseta.philmap', [
     });
 }])
 
-.controller('PhilMapController', ['$scope', 'mockData', 'mockCsv',
-    function($scope, mockData, mockCsv) {
+.controller('PhilMapController', ['$scope',
+    function($scope) {
         $scope.mode = false;
         $scope.region = '';
-        $scope.data = [];
+        $scope.predictedData = {
+            "Region I" : [
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                }
+            ],
+            "Region II" : [
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                },
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                }
+            ],
+            "Region III" : [
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                },
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                },
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                }
+            ],
+            "Region IV" : [
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                }
+            ],
+            "Region V" : [
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                }
+            ],
+            "Region VI" : [
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                }
+            ],
+            "Region VII" : [
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                }
+            ],
+            "Region VIII" : [
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                }
+            ],
+            "Region IX" : [
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                }
+            ],
+            "Region X" : [
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                }
+            ],
+            "Region XI" : [
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                }
+            ],
+            "Region XII" : [
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                }
+            ],
+            "Region XIII" : [
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                }
+            ],
+            "ARMM" : [
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                }
+            ],
+            "CAR" : [
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                }
+            ],
+            "NCR" : [
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                }
+            ],
+            "NIR" : [
+                {
+                    "medicine":"Paracetamol",
+                    "disease":"HIV/STI",
+                    "supply":"2048"
+                }
+            ],
+        };
         /*MOCK DATA*/
         $scope.diseases = [
           "HIV/STI",
@@ -35,6 +170,7 @@ angular.module('reseta.philmap', [
           "Influenza",
           "Malaria"
         ]
+        $scope.data = {};
 
         var regionsPath = [
             /*REGION 1*/
@@ -802,8 +938,6 @@ angular.module('reseta.philmap', [
 
         ];
 
-        parseCsv(mockCsv, mockData);
-
         $scope.addDisease = function() {
           var data = {};
           data.disease = $scope.name.trim();
@@ -908,9 +1042,11 @@ angular.module('reseta.philmap', [
                     "method": function(event) {
                         $scope.$apply(function(){
                             $scope.region = event.mapObject.title;
+                            $scope.data = $scope.predictedData;
                         });
                         var map = event.chart;
                         if($scope.isZoomed){
+                            $scope.data = {};
                             if(($scope.currentRegion == $scope.region)){
                                 //Set booleans
                                 $scope.isZoomed = !$scope.isZoomed;
@@ -924,13 +1060,15 @@ angular.module('reseta.philmap', [
                                 });
                             } else {
                                 $scope.currentRegion = event.mapObject.title;
+                                $scope.$apply(function(){
+                                    $scope.data = $scope.predictedData;
+                                });
                             }
 
                         } else if(!$scope.isZoomed){
                             //Set booleans
                             $scope.isZoomed = !$scope.isZoomed;
                             var info = map.getDevInfo();
-                            console.log(event.mapObject.title);
                             $scope.currentRegion = event.mapObject.title;
 
                             //create showing details here
@@ -943,33 +1081,3 @@ angular.module('reseta.philmap', [
             ]
           });
 }]);
-
-var parseCsv = function(arr, dest) {
-    angular.forEach(arr, function(value, key){
-        // 'month 0', 'year 1', 'region 2', 'medicine 3', 'disease 4', 'recorded_cases 5','population 6', 'population_density 7', 'medicine_sales 8'
-        var sArr = value.split(',');
-        //Check if region is already initialized
-        if(Object.keys(dest).indexOf(sArr[2]) > -1) {
-            dest[sArr[2]].totalCases = dest[sArr[2]].totalCases + parseInt(sArr[5]);
-            dest[sArr[2]].totalSales = dest[sArr[2]].totalCases + parseInt(sArr[8]);
-            dest[sArr[2]].diseases[sArr[4]] = {
-                "recordedCases": parseInt(sArr[5]),
-                "medicine": sArr[3],
-                "medicineSale": parseInt(sArr[8])
-            };
-        } else{
-            var newObj = {
-                "totalCases": parseInt(sArr[5]),
-                "totalSales": parseInt(sArr[3]),
-                "diseases": {}
-            };
-            newObj.diseases[sArr[4]] = {
-                "recordedCases": parseInt(sArr[5]),
-                "medicine": sArr[3],
-                "medicineSale": parseInt(sArr[8])
-            };
-            dest[sArr[2]] = newObj;
-        }
-        console.log(dest[sArr[2]]);
-    });
-}
