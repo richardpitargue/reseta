@@ -11,18 +11,17 @@ exports.send_prediction_sales = (req, res, next) => {
         year: req.query.year || 2016,
         region: req.query.region || 'Region I',
         medicine: req.query.medicine || 'ALBENDAZOLE 400MG TABLET',
-        disease: req.query.disease || '-',
+        disease: req.query.disease || 'Malaria',
         cases: req.query.cases || 0,
         population: req.query.population || 0,
         density: req.query.density || 0
     }
-    winston.log('info', req.query);
+
     function predict() {
         let dirname = __dirname + '/../../scikit_regression.py';
         let arr = [dirname, data.month, data.year, data.region, data.medicine, 
                    data.disease, data.cases, data.population, data.density, 1]
         let python = require("child_process").spawn('python', arr);
-
 
         let output = '';
         let response;
@@ -65,7 +64,7 @@ exports.send_prediction_diseases = (req, res, next) => {
     function predict() {
         let dirname = __dirname + '/../../scikit_regression.py';
         let arr =  [dirname, data.month, data.year, data.region, data.medicine, 
-                    data.disease, data.population, data.density, 2]
+                    data.disease, data.population, data.population, data.density, 2]
         let python = require("child_process").spawn('python', arr);
 
         let output = '';
@@ -73,25 +72,34 @@ exports.send_prediction_diseases = (req, res, next) => {
         let type = '';
 
         python.stdout.on('data', (_data) => {
-            winston.log('info', _data.toString());
-            output += data;
-            output = output.split('\n');
-            cases = output[output.length-1];
-
+            output = _data.toString();
+            output = JSON.stringify(output);
+            let s = output.replace(/\\n/g, "\\n")  
+                            .replace(/\\'/g, "\\'")
+                            .replace(/\\"/g, '\\"')
+                            .replace(/\\&/g, "\\&")
+                            .replace(/\\r/g, "\\r")
+                            .replace(/\\t/g, "\\t")
+                            .replace(/\\b/g, "\\b")
+                            .replace(/\\f/g, "\\f");
+            s = s.replace(/\\n/g, '');
+            s = s.replace(/\\'/g, '"');
+            s = s.replace(/[\u0000-\u0019]+/g,"");
+            // remove non-printable and other non-valid JSON chars
+            let o = JSON.parse(s);
             response = {
                 region: data.region,
-                expected_cases: JSON.parse(cases)
+                expected_cases: o
             }
 
-            winston.log('info', response);
+            // winston.log('info', response);
         });
 
         python.on('close', (code) => { 
-            console.log(code);
             if (code !== 0) {  
                 return res.status(500).send({ERROR: 'Server error'}); 
             }
-            console.log(response);
+
             return res.status(200).send(response);
         }); 
     }
