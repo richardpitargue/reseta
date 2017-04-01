@@ -3,6 +3,7 @@
 import shell from 'python-shell';
 import winston from 'winston';
 import fs from 'fs';
+import async from 'async';
 
 exports.send_prediction_sales = (req, res, next) => {
 
@@ -100,10 +101,10 @@ exports.send_prediction_all_sales = (req, res, next) => {
                         'SALBUTAMOL (as sulfate) 2MG TABLET'
     ]
 
-    function predict(med) {
+    function predict() {
         let dirname = __dirname + '/../../scikit_regression.py';
-        let arr = [dirname, data.month, data.year, data.region, med, 
-                   data.disease, data.cases, data.population, data.density, 1]
+        let arr = [dirname, data.month, data.year, data.region, '-', 
+                   '-', 0, data.population, data.density, 3]
         let python = require("child_process").spawn('python', arr);
 
         let output = '';
@@ -111,31 +112,37 @@ exports.send_prediction_all_sales = (req, res, next) => {
         let type = '';
 
         python.stdout.on('data', (_data) => {
-            output += _data.toString();
-
-            console.log("a" + output);
+            output = _data.toString();
+            output = JSON.stringify(output);
+            let s = output.replace(/\\n/g, "\\n")  
+                            .replace(/\\'/g, "\\'")
+                            .replace(/\\"/g, '\\"')
+                            .replace(/\\&/g, "\\&")
+                            .replace(/\\r/g, "\\r")
+                            .replace(/\\t/g, "\\t")
+                            .replace(/\\b/g, "\\b")
+                            .replace(/\\f/g, "\\f");
+            s = s.replace(/\\n/g, '');
+            s = s.replace(/\\'/g, '"');
+            s = s.replace(/[\u0000-\u0019]+/g,"");
+            // remove non-printable and other non-valid JSON chars
+            let o = JSON.parse(s);
             response = {
                 region: data.region,
-                medicine: med,
-                expected_demand: parseInt(output)
+                expected_demand: o
+            }
+        });
+
+        python.on('close', (code) => { 
+            if (code !== 0) {  
+                return res.status(500).send({ERROR: 'Server error'}); 
             }
 
-            return response;
-        });
+            return res.status(200).send(response);
+        }); 
     }
     
-    function start() {
-        let response = [];
-
-        MEDICINE.forEach((e) => {
-            console.log(e);
-            response.push(predict(e)); //late dumadating ang result ng predict(e)
-        });
-
-        return res.status(200).send(response);
-    }
-    
-    start();
+    predict();
 }
 
 exports.send_prediction_diseases = (req, res, next) => {
