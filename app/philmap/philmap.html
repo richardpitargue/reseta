@@ -29,10 +29,11 @@
               </table>
               <button class="btn btn-primary">View All</button>
             </div><br />
-            <label><strong>Add Disease Parameter</strong></label>
+            <label><strong>Add Data</strong></label>
             <form class="data-input form-horizontal row">
               <div class="diseases row">
-                <select ng-model="name" class="col-xs-12">
+                <label for="dname" class="label-control">Disease</label>
+                <select id="dname" ng-init="dname = diseases[0]" ng-model="dname" class="col-xs-12" style="margin:0">
                   <option ng-repeat="disease in diseases">
                     {{disease}}
                   </option>
@@ -41,8 +42,16 @@
                   <input ng-model="count" id="count" class="form-control" placeholder="# of cases"/>
                 </div>
               </div>
+              <div class="medicines row">
+                <label for="dname" style="margin-top:5px;">Medicine</label>
+                <select id="mname" ng-init="mname = medicines[0]" ng-model="mname" class="col-xs-12" style="margin:0">
+                  <option ng-repeat="medicine in medicines">
+                    {{medicine}}
+                  </option>
+                </select>
+              </div>
             </form><br />
-            <button class="btn btn-default">Add</button>
+            <button class="btn btn-default" ng-click="addMed()">Add</button>
           </div>
         </div>
     </div>
