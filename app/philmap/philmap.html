@@ -21,39 +21,21 @@
                   <th>Disease</th>
                   <th>Recommended Supply</th>
                 </tr>
-                <!-- <tr ng-repeat="order in data">
+                <tr ng-repeat="order in data[currentRegion]">
                   <th>{{order.medicine}}</th>
                   <th>{{order.disease}}</th>
                   <th>{{order.supply}}</th>
-                </tr> -->
-                <tr>
-                  <td>Paracetamol</td>
-                  <td>HIV/STI</td>
-                  <td>2048</td>
-                </tr>
-                <tr>
-                  <td>Paracetamol</td>
-                  <td>HIV/STI</td>
-                  <td>2048</td>
-                </tr>
-                <tr>
-                  <td>Paracetamol</td>
-                  <td>HIV/STI</td>
-                  <td>2048</td>
-                </tr>
-                <tr>
-                  <td>Paracetamol</td>
-                  <td>HIV/STI</td>
-                  <td>2048</td>
-                </tr>
-                <tr>
-                  <td>Paracetamol</td>
-                  <td>HIV/STI</td>
-                  <td>2048</td>
                 </tr>
               </table>
-              <button class="btn btn-default">View All</button>
-              <button class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+              <div class="button-panel row">
+                <button class="btn btn-default">View All</button>
+                <button class="btn btn-primary" ng-click="addMed()" ng-hide="adding"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                <select ng-show="adding">
+                  <option>Vitamin A</option>
+                </select>
+                <button class="btn btn-primary" ng-click="addMed()" ng-show="adding"><i class="fa fa-check" aria-hidden="true"></i></button>
+              </div>
+
             </div>
             <!-- <div ng-switch-when="mode">
               <form class="data-input form-horizontal row">
