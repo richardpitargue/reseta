@@ -9,8 +9,8 @@
   }
 
   .details-modal {
-    min-height: 400px;
-    width: 350px;
+    min-height: 500px;
+    width: 400px;
     background-color: rgba(51, 92, 103, 0.75);
     position: absolute;
     overflow: hidden;
@@ -82,11 +82,14 @@
       input { border-radius: 0; }
 
       .btn {
-        margin-top: 10px;
         margin-left: 10px;
       }
 
-      th { color: inherit; }
+      th { color: white; }
+
+      .table-striped>tbody>tr:nth-of-type(odd) {
+        background-color: rgba(51, 92, 103, 0.45);
+      }
 
       .table-cont {
         overflow-y: auto;

@@ -13,6 +13,7 @@ angular.module('reseta.philmap', [
 
 .controller('PhilMapController', ['$scope', 'mockData', 'mockCsv',
     function($scope, mockData, mockCsv) {
+        $scope.mode = false;
         $scope.region = '';
         $scope.data = [];
         /*MOCK DATA*/
@@ -800,6 +801,8 @@ angular.module('reseta.philmap', [
             }
 
         ];
+
+        parseCsv(mockCsv, mockData);
 
         $scope.addDisease = function() {
           var data = {};
