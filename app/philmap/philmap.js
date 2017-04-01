@@ -13,7 +13,7 @@ angular.module('reseta.philmap', [
 
 .controller('PhilMapController', ['$scope',
     function($scope) {
-        $scope.mode = false;
+        $scope.adding = false;
         $scope.region = '';
         $scope.predictedData = {
             "Region I" : [
@@ -576,6 +576,7 @@ angular.module('reseta.philmap', [
         ];
         var labels = [
             {
+                "title": "Region I",
                 "selectable": true,
                 "longitude": 117.5599,
                 "latitude": 17.3706,
@@ -586,6 +587,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region I",
                 "selectable": true,
                 "longitude": 117.5692,
                 "latitude": 16.9412,
@@ -596,6 +598,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "CAR",
                 "selectable": true,
                 "longitude": 118.0022,
                 "latitude": 19.1976,
@@ -606,6 +609,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "CAR",
                 "selectable": true,
                 "longitude": 118.0515,
                 "latitude": 18.7703,
@@ -616,6 +620,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region III",
                 "selectable": true,
                 "longitude": 116.5227,
                 "latitude": 16.3306,
@@ -626,6 +631,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region III",
                 "selectable": true,
                 "longitude": 116.5214,
                 "latitude": 15.9236,
@@ -636,6 +642,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region II",
                 "selectable": true,
                 "longitude": 124.5657,
                 "latitude": 17.9078,
@@ -646,6 +653,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region II",
                 "selectable": true,
                 "longitude": 124.5398,
                 "latitude": 17.4325,
@@ -656,6 +664,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region IV-A",
                 "selectable": true,
                 "longitude": 118.3762,
                 "latitude": 14.9427,
@@ -666,6 +675,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region IV-A",
                 "selectable": true,
                 "longitude": 118.4243,
                 "latitude": 14.4847,
@@ -676,6 +686,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region IV-B",
                 "selectable": true,
                 "longitude": 116.9988,
                 "latitude": 13.7355,
@@ -686,6 +697,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region IV-B",
                 "selectable": true,
                 "longitude": 116.9682,
                 "latitude": 13.2237,
@@ -696,6 +708,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "NCR",
                 "selectable": true,
                 "longitude": 123.2836,
                 "latitude": 15.3238,
@@ -706,6 +719,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "NCR",
                 "selectable": true,
                 "longitude": 123.2783,
                 "latitude": 14.8908,
@@ -716,6 +730,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region V",
                 "selectable": true,
                 "longitude": 126.2452,
                 "latitude": 14.0864,
@@ -726,6 +741,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region V",
                 "selectable": true,
                 "longitude": 126.2946,
                 "latitude": 13.6074,
@@ -736,6 +752,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region VI",
                 "selectable": true,
                 "longitude": 120.5502,
                 "latitude": 11.6627,
@@ -746,6 +763,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region VI",
                 "selectable": true,
                 "longitude": 120.5695,
                 "latitude": 11.2239,
@@ -756,6 +774,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region NIR",
                 "selectable": true,
                 "longitude": 120.7208,
                 "latitude": 10.2932,
@@ -766,6 +785,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region NIR",
                 "selectable": true,
                 "longitude": 120.7442,
                 "latitude": 9.9015,
@@ -776,6 +796,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region VII",
                 "selectable": true,
                 "longitude": 127.9247,
                 "latitude": 10.0953,
@@ -786,6 +807,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region VII",
                 "selectable": true,
                 "longitude": 127.9494,
                 "latitude": 9.7035,
@@ -796,6 +818,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region VIII",
                 "selectable": true,
                 "longitude": 127.2337,
                 "latitude": 12.6955,
@@ -806,6 +829,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region VIII",
                 "selectable": true,
                 "longitude": 127.209,
                 "latitude": 12.2819,
@@ -816,6 +840,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region XIII",
                 "selectable": true,
                 "longitude": 128.6119,
                 "latitude": 8.9187,
@@ -826,6 +851,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region XIII",
                 "selectable": true,
                 "longitude": 128.5872,
                 "latitude": 8.5011,
@@ -836,6 +862,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region X",
                 "selectable": true,
                 "longitude": 128.0468,
                 "latitude": 7.9507,
@@ -846,6 +873,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region X",
                 "selectable": true,
                 "longitude": 128.0715,
                 "latitude": 7.5167,
@@ -856,6 +884,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region XI",
                 "selectable": true,
                 "longitude": 127.0571,
                 "latitude": 6.9017,
@@ -866,6 +895,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region XI",
                 "selectable": true,
                 "longitude": 127.0571,
                 "latitude": 6.5327,
@@ -876,6 +906,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region IX",
                 "selectable": true,
                 "longitude": 120.3714,
                 "latitude": 8.2798,
@@ -886,6 +917,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region IX",
                 "selectable": true,
                 "longitude": 120.4208,
                 "latitude": 7.8615,
@@ -896,6 +928,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "ARMM",
                 "selectable": true,
                 "longitude": 119.3842,
                 "latitude": 7.3428,
@@ -906,6 +939,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "ARMM",
                 "selectable": true,
                 "longitude": 119.3583,
                 "latitude": 6.9744,
@@ -916,6 +950,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region XII",
                 "selectable": true,
                 "longitude": 117.8579,
                 "latitude": 6.5056,
@@ -926,6 +961,7 @@ angular.module('reseta.philmap', [
                 "labelFontSize": 15
             },
             {
+                "title": "Region XII",
                 "selectable": true,
                 "longitude": 117.8832,
                 "latitude": 6.0357,
@@ -938,14 +974,8 @@ angular.module('reseta.philmap', [
 
         ];
 
-        $scope.addDisease = function() {
-          var data = {};
-          data.disease = $scope.name.trim();
-          data.cases = $scope.count;
-          data.population = $scope.pop;
-          data.region = $scope.region;
-          $scope.data.push(data);
-
+        $scope.addMed = function() {
+          $scope.adding = !$scope.adding;
         }
 
         //numbers
