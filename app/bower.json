@@ -12,5 +12,13 @@
   ],
   "license": "MIT",
   "homepage": "",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "angular": "^1.6.3",
+    "angular-loader": "^1.6.3",
+    "angular-mocks": "^1.6.3",
+    "angular-route": "^1.6.3",
+    "less": "^2.7.2",
+    "components-font-awesome": "^4.7.0"
+  }
 }

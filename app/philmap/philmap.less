@@ -1,0 +1,107 @@
+.philmap {
+  padding: 0px;
+
+  .brand-logo {
+    width: 200px;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+  }
+
+  .details-modal {
+    min-height: 570px;
+    width: 400px;
+    background-color: rgba(51, 92, 103, 0.75);
+    position: absolute;
+    overflow: hidden;
+    color: black;
+    top: 30px;
+    right: 30px;
+
+    .section-title {
+      background-color: #2e2e2e;
+      color: black;
+      font-weight: bold;
+      position: relative;
+      padding: inherit;
+
+      &.focus {
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .title {
+        padding: 8px 16px 8px 16px;
+        display: inline-block;
+        position: relative;
+      }
+
+      .skew {
+        background-color: #eee;
+        height: 100%;
+        left: -15px;
+        position: absolute;
+        top: 0;
+
+        -webkit-transform: skew(30deg);
+        -ms-transform: skew(30deg);
+        transform: skew(30deg);
+      }
+
+      .skewed-text {
+        position: relative;
+        padding: 0px 15px;
+      }
+    }
+
+    .summary {
+      padding: 8px 15px;
+      color: white;
+
+      form {margin: 0px 15px;}
+
+      [class^='col-'] {
+        padding: 0;
+        margin-top: 10px;
+      }
+
+      .control-label {
+        float: left;
+        margin-right: 5px;
+        margin-top: 10px;
+      }
+
+      .data-spread {
+        height: 220px;
+        overflow: auto;
+        overflow-x: hidden;
+      }
+
+      select {
+        height: 32px;
+        color: black;
+        border-radius: 0;
+        letter-spacing: 0;
+        text-transform: none;
+        padding: 5px 8px !important;
+      }
+
+      input { border-radius: 0; }
+
+      .btn {
+        margin-left: 10px;
+      }
+
+      th { color: white; }
+
+      .table-striped>tbody>tr:nth-of-type(odd) {
+        background-color: rgba(51, 92, 103, 0.45);
+      }
+    }
+  }
+
+  #map {
+    width: 100%;
+    height: 100vh;
+  }
+}
