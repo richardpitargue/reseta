@@ -18,7 +18,7 @@ exports.send_prediction_sales = (req, res, next) => {
     }
     winston.log('info', req.query);
     function predict() {
-        let dirname = __dirname + '/../../linear_regressor.py';
+        let dirname = __dirname + '/../../scikit_regression.py';
         let arr = [dirname, data.month, data.year, data.region, data.medicine, 
                    data.disease, data.cases, data.population, data.density, 1]
         let python = require("child_process").spawn('python', arr);
@@ -67,7 +67,7 @@ exports.send_prediction_diseases = (req, res, next) => {
     }
 
     function predict() {
-        let dirname = __dirname + '/../../linear_regressor.py';
+        let dirname = __dirname + '/../../scikit_regression.py';
         let python = require("child_process").spawn(
             'python',
             [dirname, data.month, data.year, data.region, data.medicine, 
