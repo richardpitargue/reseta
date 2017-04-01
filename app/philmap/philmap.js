@@ -14,6 +14,7 @@ angular.module('reseta.philmap', [
 .controller('PhilMapController', ['$scope', 'mockData', 'mockCsv',
     function($scope, mockData, mockCsv) {
         $scope.region = '';
+        $scope.data = [];
         /*MOCK DATA*/
         $scope.diseases = [
           "HIV/STI",
@@ -33,6 +34,7 @@ angular.module('reseta.philmap', [
           "Influenza",
           "Malaria"
         ]
+
         var regionsPath = [
             /*REGION 1*/
             {
@@ -799,7 +801,15 @@ angular.module('reseta.philmap', [
 
         ];
 
-        parseCsv(mockCsv, mockData);
+        $scope.addDisease = function() {
+          var data = {};
+          data.disease = $scope.name.trim();
+          data.cases = $scope.count;
+          data.population = $scope.pop;
+          data.region = $scope.region;
+          $scope.data.push(data);
+
+        }
 
         //numbers
         $scope.initZoomLvl = 0;
@@ -932,7 +942,6 @@ angular.module('reseta.philmap', [
 }]);
 
 var parseCsv = function(arr, dest) {
-    console.log(Object.keys(dest)[0]);
     angular.forEach(arr, function(value, key){
         // 'month 0', 'year 1', 'region 2', 'medicine 3', 'disease 4', 'recorded_cases 5','population 6', 'population_density 7', 'medicine_sales 8'
         var sArr = value.split(',');

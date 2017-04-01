@@ -13,19 +13,40 @@
           </div>
 
           <div class="summary">
-            <label>Input</label>
-            <div class="diseases row">
-              <form class="data-input form-horizontal row">
-                <select class="col-xs-12">
+            <form class="data-input form-horizontal row">
+              <label>Disease Details</label>
+              <div class="diseases row">
+                <select ng-model="name" class="col-xs-12">
                   <option ng-repeat="disease in diseases">
                     {{disease}}
                   </option>
                 </select>
                 <div class="col-xs-6">
-                  <input id="count" class="form-control" placeholder="# of cases"/>
+                  <input ng-model="count" id="count" class="form-control" placeholder="# of cases"/>
                 </div>
-                <button class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i></button>
-              </form>
+              </div><br />
+              <label>Region Details</label>
+              <div class="region-details row">
+                  <div class="col-xs-6">
+                    <input ng-model="pop" id="count" class="form-control" placeholder="Population"/>
+                  </div>
+                  <button class="btn btn-primary" ng-click="addDisease()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                  <button class="btn btn-success">Submit</button>
+              </div>
+            </form><br />
+            <div class="table-cont row">
+              <table class="table">
+                <tr>
+                  <th>Disease</th>
+                  <th>Cases</th>
+                  <th>Population</th>
+                </tr>
+                <tr ng-repeat="entry in data">
+                  <td>{{entry.disease}}</td>
+                  <td>{{entry.cases}}</td>
+                  <td>{{entry.population}}</td>
+                </tr>
+              </table>
             </div>
           </div>
         </div>
