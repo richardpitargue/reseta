@@ -14,143 +14,9 @@ angular.module('reseta.philmap', [
 .controller('PhilMapController', ['$scope', '$http', 'regionsPath',
     'areasArr', 'lines',
     function($scope, $http, regionsPath, areasArr, lines) {
+        $scope.ascSortedKeys = [];
+        $scope.drugDemand = {};
         $scope.region = '';
-        $scope.predictedData = {
-            "Region I" : [
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                }
-            ],
-            "Region II" : [
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                },
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                }
-            ],
-            "Region III" : [
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                },
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                },
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                }
-            ],
-            "Region IV" : [
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                }
-            ],
-            "Region V" : [
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                }
-            ],
-            "Region VI" : [
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                }
-            ],
-            "Region VII" : [
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                }
-            ],
-            "Region VIII" : [
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                }
-            ],
-            "Region IX" : [
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                }
-            ],
-            "Region X" : [
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                }
-            ],
-            "Region XI" : [
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                }
-            ],
-            "Region XII" : [
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                }
-            ],
-            "Region XIII" : [
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                }
-            ],
-            "ARMM" : [
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                }
-            ],
-            "CAR" : [
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                }
-            ],
-            "NCR" : [
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                }
-            ],
-            "NIR" : [
-                {
-                    "medicine":"Paracetamol",
-                    "disease":"HIV/STI",
-                    "supply":"2048"
-                }
-            ],
-        };
         /*MOCK DATA*/
         $scope.diseases = [
           "HIV/STI",
@@ -206,7 +72,7 @@ angular.module('reseta.philmap', [
                             'METOPROLOL (as tartrate) 50MG TABLET',
                             'CAPTOPRIL 25MG TABLET',
                             'SALBUTAMOL (as sulfate) 2MG TABLET'
-        ]
+        ];
         $scope.data = {};
 
         var labels = [
@@ -617,18 +483,22 @@ angular.module('reseta.philmap', [
           data.cases = $scope.count.trim() || 0;
 
           $http.get('http://10.239.118.180:3000/api/prediction/sales?month=1&year=2016&region='+data.region+'&medicine='+data.medicine).then(function(res) {
-            var newMed = {
-                "medicine": $scope.mname,
-                "disease": $scope.dname,
-                "supply": res.data.expected_demand
-            };
-
-            if(!$scope.predictedData[$scope.currentRegion.trim()]) {
-              $scope.predictedData[$scope.currentRegion.trim()] = [];
-            }
-            $scope.predictedData[$scope.currentRegion.trim()].push(newMed);
+            $scope.$apply(function(){
+                $scope.drugDemand[data.medicine] = res.data.expected_demand;
+            });
           });
-        }
+      };
+
+      $scope.displayAll = function() {
+          $scope.drugDemand = {};
+          $http.get('http://10.239.118.180:3000/api/prediction/region?month=1&year=2016&region='+$scope.currentRegion.trim()).then(function(res) {
+              $scope.drugDemand = JSON.parse(res.data.expected_demand.replace(new RegExp(/\'/, 'g'), '\"'));
+              $scope.ascSortedKeys =
+                  Object.keys($scope.drugDemand)
+                      .sort(function(a,b){return $scope.drugDemand[a]-$scope.drugDemand[b]});
+          });
+
+      }
 
         //numbers
         $scope.initZoomLvl = 0;
@@ -723,12 +593,26 @@ angular.module('reseta.philmap', [
                     "event": "clickMapObject",
                     "method": function(event) {
                         $scope.$apply(function(){
+                            $scope.drugDemand = {};
+                            $http.get('http://10.239.118.180:3000/api/prediction/region?month=1&year=2016&region='+$scope.currentRegion.trim()).then(function(res) {
+                                $scope.drugDemand = JSON.parse(res.data.expected_demand.replace(new RegExp(/\'/, 'g'), '\"'));
+                                console.log($scope.drugDemand);
+                                $scope.ascSortedKeys =
+                                    Object.keys($scope.drugDemand)
+                                        .sort(function(a,b){return $scope.drugDemand[a]-$scope.drugDemand[b]});
+                                console.log($scope.ascSortedKeys);
+                            });
                             $scope.region = event.mapObject.title;
-                            $scope.data = $scope.predictedData;
                         });
                         var map = event.chart;
                         if($scope.isZoomed){
-                            $scope.data = {};
+                            $scope.drugDemand = {};
+                            $http.get('http://10.239.118.180:3000/api/prediction/region?month=1&year=2016&region='+$scope.currentRegion.trim()).then(function(res) {
+                                $scope.drugDemand = JSON.parse(res.data.expected_demand.replace(new RegExp(/\'/, 'g'), '\"'));
+                                $scope.ascSortedKeys =
+                                    Object.keys($scope.drugDemand)
+                                        .sort(function(a,b){return $scope.drugDemand[a]-$scope.drugDemand[b]});
+                            });
                             if(($scope.currentRegion == $scope.region)){
                                 //Set booleans
                                 $scope.isZoomed = !$scope.isZoomed;
@@ -743,26 +627,17 @@ angular.module('reseta.philmap', [
                             } else {
                                 $scope.currentRegion = event.mapObject.title;
                                 $scope.$apply(function(){
-                                    $scope.data = $scope.predictedData;
+                                    $scope.drugDemand = {};
+                                    $http.get('http://10.239.118.180:3000/api/prediction/region?month=1&year=2016&region='+$scope.currentRegion.trim()).then(function(res) {
+                                        $scope.drugDemand = JSON.parse(res.data.expected_demand.replace(new RegExp(/\'/, 'g'), '\"'));
+                                        $scope.ascSortedKeys =
+                                            Object.keys($scope.drugDemand)
+                                                .sort(function(a,b){return $scope.drugDemand[a]-$scope.drugDemand[b]});
+                                    });
                                 });
                             }
 
                         } else if(!$scope.isZoomed){
-                            // var queryString =
-                            //     "http://10.239.118.180:3000/api/prediction/diseases?" +
-                            //     "month=1&year=2016&region=" + $scope.currentRegion.trim();
-                            // $http.get(queryString)
-                            //     .then(function(res) {
-                            //         res.data.expected_cases = JSON.parse(res.data.expected_cases.replace(new RegExp(/\'/, 'g'), '\"'));
-                            //         console.log(res.data.expected_cases);
-                            //         var keysSorted =
-                            //             Object.keys(res.data.expected_cases)
-                            //                 .sort(function(a,b){return res.data.expected_cases[a]-res.data.expected_cases[b]});
-                            //         $scope.labelres.data.expected_cases[keysSorted[(keysSorted.length-1)]]);
-                            //     });
-
-
-
                             //Set booleans
                             $scope.isZoomed = !$scope.isZoomed;
                             var info = map.getDevInfo();

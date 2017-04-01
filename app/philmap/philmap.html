@@ -21,13 +21,13 @@
                   <th>Disease</th>
                   <th>Recommended Supply</th>
                 </tr>
-                <tr ng-repeat="order in data[currentRegion]">
-                  <th>{{order.medicine}}</th>
-                  <th>{{order.disease}}</th>
-                  <th>{{order.supply}}</th>
+                <tr ng-repeat="key in ascSortedKeys | orderBy:'+':true">
+                  <td>{{key}}</td>
+                  <td>Disease Name</td>
+                  <td>{{drugDemand[key]}}</td>
                 </tr>
               </table>
-              <button class="btn btn-primary">View All</button>
+              <!-- <button class="btn btn-primary" ng-click="displayAll()">View All</button> -->
             </div><br />
             <label><strong>Add Data</strong></label>
             <form class="data-input form-horizontal row">
