@@ -11,9 +11,9 @@ angular.module('reseta.philmap', [
     });
 }])
 
-.controller('PhilMapController', ['$scope', '$http', 'regionsPath',
+.controller('PhilMapController', ['$scope', '$http', '$timeout', 'regionsPath',
     'areasArr', 'lines',
-    function($scope, $http, regionsPath, areasArr, lines) {
+    function($scope, $http, $timeout, regionsPath, areasArr, lines) {
         $scope.ascSortedKeys = [];
         $scope.drugDemand = {};
         $scope.region = '';
@@ -482,10 +482,14 @@ angular.module('reseta.philmap', [
           data.disease = $scope.dname.trim() || '-';
           data.cases = $scope.count.trim() || 0;
 
-          $http.get('http://10.239.118.180:3000/api/prediction/sales?month=1&year=2016&region='+data.region+'&medicine='+data.medicine).then(function(res) {
-            $scope.$apply(function(){
+          $http.get('http://10.239.118.180:3000/api/prediction/sales?month=1&year=2016&region='+data.region+'&medicine='+data.medicine)
+          .then(function(res) {
+              $scope.drugDemand[data.medicine] = res.data.expected_demand;
+              $timeout(function() {
+                // the code you want to run in the next digest
+                console.log(res.data.expected_demand);
                 $scope.drugDemand[data.medicine] = res.data.expected_demand;
-            });
+                });
           });
       };
 
