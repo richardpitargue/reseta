@@ -11,6 +11,7 @@ angular.module('reseta.testpage', [
   });
 }])
 
-.controller('TestpageCtrl', ['$scope', function($scope) {
-    // console.log("Hey!");
+.controller('TestpageCtrl', ['$scope', '$locationProvider',
+    function($scope, $locationProvider) {
+    console.log("Hey!");
 }]);

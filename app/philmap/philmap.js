@@ -11,8 +11,8 @@ angular.module('reseta.philmap', [
     });
 }])
 
-.controller('PhilMapController', ['$scope',
-    function($scope, PhilMapDrawer) {
+.controller('PhilMapController', ['$scope', 'mockData', 'mockCsv',
+    function($scope, mockData, mockCsv) {
         $scope.region = '';
         /*MOCK DATA*/
         $scope.diseases = [
@@ -799,9 +799,18 @@ angular.module('reseta.philmap', [
 
         ];
 
+        parseCsv(mockCsv, mockData);
+
+        //numbers
         $scope.initZoomLvl = 0;
         $scope.initZoomLongitude = 0;
         $scope.initZoomLatitude = 0;
+        $scope.currentZoomLvl = 0;
+        $scope.currentZoomLongitude = 0;
+        $scope.currentZoomLatitude = 0;
+
+        //strings
+        $scope.currentRegion = "";
 
         //booleans
         $scope.isZoomed = false;
@@ -884,30 +893,71 @@ angular.module('reseta.philmap', [
                 {
                     "event": "clickMapObject",
                     "method": function(event) {
-                        $scope.region = event.mapObject.title;
                         $scope.$apply(function(){
-                            $scope.hideDetailModal = !$scope.hideDetailModal;
+                            $scope.region = event.mapObject.title;
                         });
+                        var map = event.chart;
                         if($scope.isZoomed){
+                            if(($scope.currentRegion == $scope.region)){
+                                //Set booleans
+                                $scope.isZoomed = !$scope.isZoomed;
+                                map.zoomToLongLat(
+                                    $scope.initZoomLvl,
+                                    $scope.initZoomLongitude,
+                                    $scope.initZoomLatitude
+                                );
+                                $scope.$apply(function(){
+                                    $scope.hideDetailModal = !$scope.hideDetailModal;
+                                });
+                            } else {
+                                $scope.currentRegion = event.mapObject.title;
+                            }
+
+                        } else if(!$scope.isZoomed){
                             //Set booleans
                             $scope.isZoomed = !$scope.isZoomed;
+                            var info = map.getDevInfo();
+                            console.log(event.mapObject.title);
+                            $scope.currentRegion = event.mapObject.title;
 
-                            var map = event.chart;
-                            map.zoomToLongLat(
-                                $scope.initZoomLvl,
-                                $scope.initZoomLongitude,
-                                $scope.initZoomLatitude
-                            );
-                        } else {
-                            //Set booleans
-                            $scope.isZoomed = !$scope.isZoomed;
-
-                            var info = event.chart.getDevInfo();
-                            // console.log(event.mapObject.title);
                             //create showing details here
+                            $scope.$apply(function(){
+                                $scope.hideDetailModal = !$scope.hideDetailModal;
+                            });
                         }
                     }
                 }
             ]
           });
 }]);
+
+var parseCsv = function(arr, dest) {
+    console.log(Object.keys(dest)[0]);
+    angular.forEach(arr, function(value, key){
+        // 'month 0', 'year 1', 'region 2', 'medicine 3', 'disease 4', 'recorded_cases 5','population 6', 'population_density 7', 'medicine_sales 8'
+        var sArr = value.split(',');
+        //Check if region is already initialized
+        if(Object.keys(dest).indexOf(sArr[2]) > -1) {
+            dest[sArr[2]].totalCases = dest[sArr[2]].totalCases + parseInt(sArr[5]);
+            dest[sArr[2]].totalSales = dest[sArr[2]].totalCases + parseInt(sArr[8]);
+            dest[sArr[2]].diseases[sArr[4]] = {
+                "recordedCases": parseInt(sArr[5]),
+                "medicine": sArr[3],
+                "medicineSale": parseInt(sArr[8])
+            };
+        } else{
+            var newObj = {
+                "totalCases": parseInt(sArr[5]),
+                "totalSales": parseInt(sArr[3]),
+                "diseases": {}
+            };
+            newObj.diseases[sArr[4]] = {
+                "recordedCases": parseInt(sArr[5]),
+                "medicine": sArr[3],
+                "medicineSale": parseInt(sArr[8])
+            };
+            dest[sArr[2]] = newObj;
+        }
+        console.log(dest[sArr[2]]);
+    });
+}
