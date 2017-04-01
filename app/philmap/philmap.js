@@ -14,7 +14,6 @@ angular.module('reseta.philmap', [
 .controller('PhilMapController', ['$scope', '$http', 'regionsPath',
     'areasArr', 'lines',
     function($scope, $http, regionsPath, areasArr, lines) {
-        $scope.adding = false;
         $scope.region = '';
         $scope.predictedData = {
             "Region I" : [
@@ -170,6 +169,43 @@ angular.module('reseta.philmap', [
           "Hand Foot and Mouth Disease",
           "Influenza",
           "Malaria"
+        ]
+        $scope.medicines = [
+                            'PARACETAMOL 325MG TABLET',
+                            'PARACETAMOL 500MG TABLET',
+                            'ALBENDAZOLE 400MG TABLET',
+                            'MEBENDAZOLE 100MG TABLET/CAPSULE',
+                            'DIPHENHYDRAMINE 25MG TABLET/CAPSULE',
+                            'CHLORPHENAMINE 4MG TABLET',
+                            'MEFENAMIC ACID 250MG TABLET/CAPSULE',
+                            'IBUPROFEN 200MG TABLET',
+                            'ASPIRIN 300MG TABLET',
+                            'ASPIRIN 325MG TABLET',
+                            'ASPIRIN 80MG TABLET',
+                            'LAGUNDI 300MG TABLET',
+                            'LAGUNDI 600MG TABLET',
+                            'SAMBONG 250MG TABLET',
+                            'SAMBONG 500MG TABLET',
+                            'DEXTROMETHORPHAN 10MG TABLET',
+                            'LOPERAMIDE 2MG CAPSULE',
+                            'MECLOZINE (MECLIZINE) (as hydrochloride) 12.5MG TABLET',
+                            'MECLOZINE (MECLIZINE) (as hydrochloride) 25MG TABLET',
+                            'BISACODYL 5MG TABLET',
+                            'STANDARD SENNA (Concentrate) 187MG TABLET',
+                            'FERROUS SULFATE 60MG TABLET',
+                            'ASCORBIC ACID (Vitamin C) 100MG TABLET',
+                            'ASCORBIC ACID (Vitamin C) 250MG TABLET',
+                            'ASCORBIC ACID (Vitamin C) 500MG TABLET',
+                            'VITAMIN B1 + B6 + B12 155MG TABLET/CAPSULE',
+                            'AMOXICILLIN (as trihydrate) 250MG CAPSULE',
+                            'AMOXICILLIN (as trihydrate) 500MG CAPSULE',
+                            'COTRIMOXAZOLE (sulfamethoxazole + trimethoprim) 480MG TABLET/CAPSULE',
+                            'COTRIMOXAZOLE (sulfamethoxazole + trimethoprim) 960MG TABLET/CAPSULE',
+                            'METFORMIN (as hydrochloride) 500MG TABLET',
+                            'GLIBENCLAMIDE 5MG TABLET',
+                            'METOPROLOL (as tartrate) 50MG TABLET',
+                            'CAPTOPRIL 25MG TABLET',
+                            'SALBUTAMOL (as sulfate) 2MG TABLET'
         ]
         $scope.data = {};
 
@@ -574,7 +610,24 @@ angular.module('reseta.philmap', [
         ];
 
         $scope.addMed = function() {
-          $scope.adding = !$scope.adding;
+          var data = [];
+          data.region = $scope.currentRegion.trim();
+          data.medicine = $scope.mname.trim();
+          data.disease = $scope.dname.trim() || '-';
+          data.cases = $scope.count.trim() || 0;
+
+          $http.get('http://10.239.118.180:3000/api/prediction/sales?month=1&year=2016&region='+data.region+'&medicine='+data.medicine).then(function(res) {
+            var newMed = {
+                "medicine": $scope.mname,
+                "disease": $scope.dname,
+                "supply": res.data.expected_demand
+            };
+
+            if(!$scope.predictedData[$scope.currentRegion.trim()]) {
+              $scope.predictedData[$scope.currentRegion.trim()] = [];
+            }
+            $scope.predictedData[$scope.currentRegion.trim()].push(newMed);
+          });
         }
 
         //numbers

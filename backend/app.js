@@ -9,6 +9,12 @@ import bodyParser from 'body-parser';
 import config from './config/config';
 
 let app = express();
+const CORS = {
+    allowed_headers: 'Access-Token, X-Requested-With, Content-Type, Accept, Authorization',
+    allowed_origins: '*',
+    allowed_methods: 'GET, POST, PUT, OPTIONS, DELETE',
+    allow_credentials: 'true'
+}
 
 winston.cli();
 winston.level = config.LOG_LEVEL || 'silly';
@@ -20,6 +26,14 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', CORS.allowed_origins);
+    res.header('Access-Control-Allow-Headers', CORS.allowed_headers);
+    res.header('Access-Control-Allow-Credentials', CORS.allow_credentials);
+    res.header('Access-Control-Allow-Methods', CORS.allowed_methods);
+    next();
+}
+);
 app.use(express.static(path.join(__dirname, '/../app')));
 app.use('/api', require(path.join(__dirname, '/config/router'))(express.Router()));
 

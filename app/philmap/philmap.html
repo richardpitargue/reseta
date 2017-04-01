@@ -12,9 +12,9 @@
             </div>
           </div>
 
-          <div class="summary" ng-switch on="mode">
-            <label><strong>Priority Order</strong></label>
-            <div ng-switch-default>
+          <div class="summary">
+            <div class="data-spread">
+              <label><strong>Priority Order</strong></label>
               <table class="table table-striped table-responsive">
                 <tr>
                   <th>Medicine</th>
@@ -27,53 +27,31 @@
                   <th>{{order.supply}}</th>
                 </tr>
               </table>
-              <div class="button-panel row">
-                <button class="btn btn-default">View All</button>
-                <button class="btn btn-primary" ng-click="addMed()" ng-hide="adding"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                <select ng-show="adding">
-                  <option>Vitamin A</option>
+              <button class="btn btn-primary">View All</button>
+            </div><br />
+            <label><strong>Add Data</strong></label>
+            <form class="data-input form-horizontal row">
+              <div class="diseases row">
+                <label for="dname" class="label-control">Disease</label>
+                <select id="dname" ng-init="dname = diseases[0]" ng-model="dname" class="col-xs-12" style="margin:0">
+                  <option ng-repeat="disease in diseases">
+                    {{disease}}
+                  </option>
                 </select>
-                <button class="btn btn-primary" ng-click="addMed()" ng-show="adding"><i class="fa fa-check" aria-hidden="true"></i></button>
-              </div>
-
-            </div>
-            <!-- <div ng-switch-when="mode">
-              <form class="data-input form-horizontal row">
-                <label>Disease Details</label>
-                <div class="diseases row">
-                  <select ng-model="name" class="col-xs-12">
-                    <option ng-repeat="disease in diseases">
-                      {{disease}}
-                    </option>
-                  </select>
-                  <div class="col-xs-6">
-                    <input ng-model="count" id="count" class="form-control" placeholder="# of cases"/>
-                  </div>
-                </div><br />
-                <label>Region Details</label>
-                <div class="region-details row">
-                    <div class="col-xs-6">
-                      <input ng-model="pop" id="count" class="form-control" placeholder="Population"/>
-                    </div>
-                    <button class="btn btn-primary" ng-click="addDisease()"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                    <button class="btn btn-default">Submit</button>
+                <div class="col-xs-6">
+                  <input ng-model="count" id="count" class="form-control" placeholder="# of cases"/>
                 </div>
-              </form><br />
-              <div class="table-cont row">
-                <table class="table">
-                  <tr>
-                    <th>Disease</th>
-                    <th>Cases</th>
-                    <th>Population</th>
-                  </tr>
-                  <tr ng-repeat="entry in data">
-                    <td>{{entry.disease}}</td>
-                    <td>{{entry.cases}}</td>
-                    <td>{{entry.population}}</td>
-                  </tr>
-                </table>
               </div>
-            </div> -->
+              <div class="medicines row">
+                <label for="dname" style="margin-top:5px;">Medicine</label>
+                <select id="mname" ng-init="mname = medicines[0]" ng-model="mname" class="col-xs-12" style="margin:0">
+                  <option ng-repeat="medicine in medicines">
+                    {{medicine}}
+                  </option>
+                </select>
+              </div>
+            </form><br />
+            <button class="btn btn-default" ng-click="addMed()">Add</button>
           </div>
         </div>
     </div>
