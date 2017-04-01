@@ -10,7 +10,7 @@ exports.send_prediction_sales = (req, res, next) => {
         month: req.query.month || 1,
         year: req.query.year || 2016,
         region: req.query.region || 'Region I',
-        medicine: req.query.medicine || 'IBUPROFEN',
+        medicine: req.query.medicine || 'ALBENDAZOLE 400MG TABLET',
         disease: req.query.disease || '-',
         cases: req.query.cases || 0,
         population: req.query.population || 0,
@@ -28,17 +28,13 @@ exports.send_prediction_sales = (req, res, next) => {
         let response;
         let type = '';
 
-        winston.log('info', arr);
-        python.stdout.on('data', (data) => {
-            output += data;
-            output = output.split('\n');
-            output = output[output.length-1];
+        python.stdout.on('data', (_data) => {
+            output += _data.toString();
 
             response = {
                 region: data.region,
-                expected_demand: parseFloat(output)
+                expected_demand: parseInt(output)
             }
-            winston.log('info', response)
         });
 
         python.on('close', (code) => { 
@@ -60,7 +56,7 @@ exports.send_prediction_diseases = (req, res, next) => {
         month: req.query.month || 1,
         year: req.query.year || 2016,
         region: req.query.region || 'Region I',
-        medicine: req.query.medicine || 'IBUPROFEN',
+        medicine: req.query.medicine || 'ALBENDAZOLE 400MG TABLET',
         disease: req.query.disease || '-',
         population: req.query.population || 0,
         density: req.query.density || 0
@@ -68,17 +64,16 @@ exports.send_prediction_diseases = (req, res, next) => {
 
     function predict() {
         let dirname = __dirname + '/../../scikit_regression.py';
-        let python = require("child_process").spawn(
-            'python',
-            [dirname, data.month, data.year, data.region, data.medicine, 
-             data.disease, data.population, data.density, 2]
-        );
+        let arr =  [dirname, data.month, data.year, data.region, data.medicine, 
+                    data.disease, data.population, data.density, 2]
+        let python = require("child_process").spawn('python', arr);
 
         let output = '';
         let response;
         let type = '';
 
-        python.stdout.on('data', (data) => {
+        python.stdout.on('data', (_data) => {
+            winston.log('info', _data.toString());
             output += data;
             output = output.split('\n');
             cases = output[output.length-1];
@@ -87,11 +82,12 @@ exports.send_prediction_diseases = (req, res, next) => {
                 region: data.region,
                 expected_cases: JSON.parse(cases)
             }
-            
+
             winston.log('info', response);
         });
 
         python.on('close', (code) => { 
+            console.log(code);
             if (code !== 0) {  
                 return res.status(500).send({ERROR: 'Server error'}); 
             }
