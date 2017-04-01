@@ -4,7 +4,8 @@ import predictor from '../controllers/predictor';
 
 module.exports = (router) => {
 
-    router.get('/prediction', predictor.send_prediction);
+    router.get('/prediction/sales', predictor.send_prediction_sales);
+    router.get('/prediction/diseases', predictor.send_prediction_diseases);
 
     return router;
 }

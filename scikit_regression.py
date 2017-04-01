@@ -13,9 +13,25 @@ NAMES = [
     'population', 'population_density', 'medicine_sales'
 ]
 
+NAMES2 = [
+    'month', 'year', 'region', 'medicine', 'disease', 'recorded_cases',
+    'population', 'population_density', 'medicine_sales'
+]
+
 COLS = [
     'month', 'year', 'region', 'medicine', 'disease', 'recorded_cases',
     'population', 'population_density'
+]
+
+TEMP = [
+    'month', 'year', 'region'
+]
+
+DISEASES = [
+    'HIV/STI', 'Neonatal Tetanus', 'Pertussis', 'Cholera', 'Typhoid',
+    'Rotavirus', 'Leptospirosis', 'Diptheria', 'Dengue', 'Chikungunya',
+    'Measles', 'Acute Flaccid Paralysis', 'Hand Foot and Mouth Disease',
+    'Influenza', 'Malaria'
 ]
 
 class Regressor(object):
@@ -23,22 +39,21 @@ class Regressor(object):
     def __init__(self):
         pass
 
-    def predict(self, month, year, region, medicine, disease, cases, population, density):
+    def predict(self, month=None, year=None, region=None, medicine=None, 
+                disease=None, cases=None, population=None, density=None):
         train_file='data.csv'
 
         df_train = pd.read_csv(train_file, names=NAMES, skipinitialspace=True)
 
-        le = LabelEncoder()
-        le.fit(df_train['month'])
-        df_train['month'] = le.transform(df_train['month'])
-        le.fit(df_train['year'])
-        df_train['year'] = le.transform(df_train['year'])
-        le.fit(df_train['region'])
-        df_train['region'] = le.transform(df_train['region'])
-        le.fit(df_train['medicine'])
-        df_train['medicine'] = le.transform(df_train['medicine'])
-        le.fit(df_train['disease'])
-        df_train['disease'] = le.transform(df_train['disease'])
+        r_le = LabelEncoder()
+        r_le.fit(df_train['region'])
+        df_train['region'] = r_le.transform(df_train['region'])
+        med_le = LabelEncoder()
+        med_le.fit(df_train['medicine'])
+        df_train['medicine'] = med_le.transform(df_train['medicine'])
+        d_le = LabelEncoder()
+        d_le.fit(df_train['disease'])
+        df_train['disease'] = d_le.transform(df_train['disease'])
 
         Y = df_train['medicine_sales']
         X = df_train.drop('medicine_sales', axis=1)
@@ -48,18 +63,9 @@ class Regressor(object):
 
         param = np.array([[month, year, region, medicine, disease, cases, population, density]])
         df_train = pd.DataFrame(param, index=[0], columns=COLS)
-        le.fit(df_train['month'])
-        df_train['month'] = le.transform(df_train['month'])
-        le.fit(df_train['year'])
-        df_train['year'] = le.transform(df_train['year'])
-        le.fit(df_train['region'])
-        df_train['region'] = le.transform(df_train['region'])
-        le.fit(df_train['medicine'])
-        df_train['medicine'] = le.transform(df_train['medicine'])
-        le.fit(df_train['disease'])
-        df_train['disease'] = le.transform(df_train['disease'])
-
-        print(lm.coef_)
+        df_train['region'] = r_le.transform(df_train['region'])
+        df_train['medicine'] = med_le.transform(df_train['medicine'])
+        df_train['disease'] = d_le.transform(df_train['disease'])
 
         return lm.predict(df_train)[0]
 
@@ -73,11 +79,53 @@ class Regressor(object):
 
         return int(prediction)
 
+    def predict_cases(self, month=None, year=None, region=None, medicine=None, 
+                      disease=None, cases=None, population=None, density=None):
+        train_file='data.csv'
+
+        df_train = pd.read_csv(train_file, names=NAMES, skipinitialspace=True)
+
+        dis = {}
+
+        r_le = LabelEncoder()
+        r_le.fit(df_train['region'])
+        df_train['region'] = r_le.transform(df_train['region'])
+        med_le = LabelEncoder()
+        med_le.fit(df_train['medicine'])
+        df_train['medicine'] = med_le.transform(df_train['medicine'])
+        d_le = LabelEncoder()
+        d_le.fit(df_train['disease'])
+        df_train['disease'] = d_le.transform(df_train['disease'])
+
+        Y = df_train['recorded_cases']
+        X = df_train.drop('recorded_cases', axis=1)
+        lm = LinearRegression()
+        lm.fit(X, Y)
+
+        NAMES2.remove('recorded_cases')
+        i = 0
+        while i < len(DISEASES):
+            disease = DISEASES[i]
+            sales = self.predict(month, year, region, medicine, disease, population, population, density)
+            param = np.array([[month, year, region, medicine, disease, population, density, sales]])
+
+            df_train = pd.DataFrame(param, index=[0], columns=NAMES2)
+            df_train['region'] = r_le.transform(df_train['region'])
+            df_train['medicine'] = med_le.transform(df_train['medicine'])
+            df_train['disease'] = d_le.transform(df_train['disease'])
+
+            dis[disease] = int(lm.predict(df_train)[0])
+            i = i + 1
+
+        return dis
+
 r = Regressor()
 ls = sys.argv[0:]
-if len(ls) < 9:
-    print('error')
+
+if int(ls[9]) == 1:
+    a = r.predict(ls[1], ls[2], ls[3], ls[4], ls[5], int(ls[6]), int(ls[7]), int(ls[8]))
 else:
-    a = r.append(ls[1], ls[2], ls[3], ls[4], ls[5], int(ls[6]), int(ls[7]), int(ls[8]))
-    print(a)
+    a = r.predict_cases(ls[1], ls[2], ls[3], ls[4], ls[5], int(ls[6]), int(ls[7]), int(ls[8]))
+
+print(a)
 sys.stdout.flush()
