@@ -174,7 +174,12 @@ angular.module('reseta.philmap', [
         $scope.data = {};
 
         $scope.addMed = function() {
+          if($scope.adding) {
+            var newMed = [];
+          }
+
           $scope.adding = !$scope.adding;
+          console.log($scope.adding);
         }
 
         //numbers
